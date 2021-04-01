@@ -1,0 +1,279 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Resources/accountPage.js"></script>
+    <!---<script type="text/javascript" src="/Resources/pagescript.js"></script>-->
+</head>
+
+<body style="background-color:lightgray;">
+    <%- include('./messages')-%>
+    <%- include('./navigation')-%>
+    <div class="container">
+        <form action='/auth/updateIncome' method='POST' id='income_form'>
+            <div id="budgetModal" class="modal fade">
+                <div class="modal-dialog modal-login">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="title">Update Income Here:</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="incomeName" name="incomeName"
+                                    placeholder="Income Amount Name" required="required">
+                                <br>
+                                <input type="number" min="0.01" step="0.01" max="10000000" class="form-control"
+                                    id="income_amount" name="income_amount" placeholder="Enter Income Amount > 0"
+                                    required="required">
+                                <br>
+                                <div class="form-control">
+                                    <strong>Income Type: </strong>
+                                    <select name="income_type" id="income_type">
+                                        <% for(var i=0; i < dropdownIncomeTypeVals.rows.length; i++) { %>
+                                        <option value="<%= dropdownIncomeTypeVals.rows[i].income_type_id %>">
+                                            <%= dropdownIncomeTypeVals.rows[i].income_type_name %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="form-control">
+                                    <strong>Recurrence Type: </strong>
+                                    <select name="income_category" id="income_category"
+                                        onchange="checkSelectIncome(this)">
+                                        <option value="one_time">One Time Payment</option>
+                                        <option value="recurring">Recurring Payment</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="form-control">
+                                    <strong>Select Income Occurance: </strong>
+                                    <select name="income_period" id="income_period" disabled="true">
+                                        <option value="na" selected>NA</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="biWeekly">Biweekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <button id="income_submit" type="submit" class="btn btn-primary btn-block login-btn">
+                                    <a href="#" onclick="addIncome()" style="color: white">Add Income</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form action='/auth/updateExpense' method='POST' id='expense_form'>
+        <div id="expenseModal" class="modal fade">
+            <div class="modal-dialog modal-login">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="title">Update Expenses Here:</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="expenseName" name="expenseName"
+                                placeholder="Expense Name" required="required">
+                            <br>
+                            <input type="number" min="0.01" step="0.01" max="10000000" class="form-control"
+                                id="expense_amount" name="expense_amount" placeholder="Enter Expense Amount > 0"
+                                required="required">
+                            <br>
+                            <div class="form-control">
+                                <strong>Expense Type: </strong>
+                                <select name="expense_type" id="expense_type">
+                                    <% for(var i=0; i < dropdownExpenseTypeVals.rows.length; i++) { %>
+                                    <option value="<%= dropdownExpenseTypeVals.rows[i].expense_type_id %>">
+                                        <%= dropdownExpenseTypeVals.rows[i].expense_type_name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="form-control">
+                                <strong>Recurrence Type: </strong>
+                                <select name="expense_category" id="expense_category"
+                                    onchange="checkSelectExpense(this)">
+                                    <option value="one_time">One Time Expense</option>
+                                    <option value="recurring">Recurring Expense</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="form-control">
+                                <strong>Select Income Occurance: </strong>
+                                <select name="expense_period" id="expense_period" disabled="true">
+                                    <option value="na" selected>NA</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="biWeekly">Biweekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="yearly">Yearly</option>
+                                </select>
+                            </div>
+                            <br>
+                            <button id="expense_submit" type="submit" class="btn btn-primary btn-block login-btn">
+                                <a href="#" onclick="addExpense()" style="color: white">Add Expense</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action='/auth/updateSavings' method='POST' id='savingsGoal_form'>
+        <div id='savingsModal' class='modal fade'>
+            <div class="modal-dialog modal-login">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="title">Update Savings Goal Here:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="number" min="0.01" step="0.01" max="10000000" class="form-control"
+                                id="goal_amount" name="goal_amount" placeholder="Enter Savings Goal > 0"
+                                required="required">
+                            <br>
+                            <button id="goal_submit" type="submit" class="btn btn-primary btn-block login-btn">
+                                <a href="#" onclick="addGoal()" style="color: white">Update Savings Goal</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    <div class="container">
+        <div class="card">
+            <br>
+            <h1 style="text-align:center">My Account</h1>
+        </div>
+
+        <div class="container" style="background-color: #a0f8ca;">
+            <div class="row">
+                <div class="column">
+                    <div class="container">
+                        <h1>Balance:</h1>
+                    </div>
+                    <br></br>
+                    <div>
+                        <a href="#budgetModal" style="color:white; height: 100; width: 300; text-align: center;"
+                            data-toggle="modal" onclick="open_income()" class="btn btn-primary">Update
+                            Income</a></button>
+                    </div>
+                    <br></br>
+                    <div>
+                        <a href="#expenseModal" style="color:white; height: 100; width: 300; text-align: center;"
+                            data-toggle="modal" onclick="open_expense()" class="btn btn-primary">Update
+                            Expenses</a></button>
+                    </div>
+                    <br></br>
+                    <div>
+                        <a href="#savingsModal" style="color:white; height: 100; width: 300; text-align: center;"
+                            data-toggle="modal" onclick="open_goal()" class="btn btn-primary">Update Savings
+                            Goal</a></button>
+                    </div>
+                </div>
+                <div class="column">
+                    <form action='/auth/deleteIncome' method='POST' id='deleteIncome_form'>
+                        <div class="container" id="Income" style="background-color: aqua;">
+                            <h3>Income</h3>
+                            <div id="incomeDisplay" display="none">
+                                <table class="table table-bordered" id="stats_table">
+                                    <input type="hidden" class="form-control" id="incomeId" name="incomeId">
+                                    <% if(incomeValues.rows.length> 0) {%>
+                                    <% if(incomeValues.rows.length>7){
+                                            var x = incomeValues.rows.length -7;
+                                        }
+                                        else{
+                                            var x = 0;
+                                        }%>
+                                    <% for(var i=x; i < incomeValues.rows.length; i++) { %>
+                                    <tr>
+                                        <td><%= incomeValues.rows[i].income_name %></td>
+                                        <td><%= incomeValues.rows[i].income_amount %></td>
+                                        <td><button id="income<%= incomeValues.rows[i].income_id%>" type="submit"
+                                                class="btn btn-primary btn-block login-btn"
+                                                onclick="deleteIncome('<%= incomeValues.rows[i].income_id%>')">DELETE</button>
+                                        </td>
+                                    </tr>
+                                    <%}%>
+                                    <%}%>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="column">
+                    <form action='/auth/deleteExpense' method='POST' id='deleteExpense_form'>
+                        <div class="container" id="Expense" style="background-color: aqua;">
+                            <h3>Expense</h3>
+                            <div id="expenseDisplay" display="none">
+                                <table class="table table-bordered" id="stats_table">
+                                    <input type="hidden" class="form-control" id="expenseId" name="expenseId">
+                                    <% if(expenseValues.rows.length> 0) {%>
+                                    <% if(expenseValues.rows.length>7){
+                                                var x = expenseValues.rows.length -7;
+                                             }
+                                            else{
+                                                var x = 0;
+                                            }%>
+                                    <% for(var i=x; i < expenseValues.rows.length; i++) { %>
+                                    <tr>
+                                        <td><%= expenseValues.rows[i].expense_name %></td>
+                                        <td><%= expenseValues.rows[i].expense_amount %></td>
+                                        <td><button id="expense<%= expenseValues.rows[i].expense_id%>" type="submit"
+                                                class="btn btn-primary btn-block login-btn"
+                                                onclick="deleteExpense('<%= expenseValues.rows[i].expense_id%>')">
+                                                DELETE</button></td>
+                                    </tr>
+                                    <%}%>
+                                        <%}%>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="column">
+                    <form action='/auth/deleteSavings' method='POST' id='deleteSavings_form'>
+                        <div class="container" id="Savings" style="background-color: aqua;">
+                            <h3>Savings Goal</h3>
+                            <form method='get' id='savingsDisplayButton'>
+                            </form>
+                            <div id="savingsDisplay" display="none">
+                                <table class="table table-bordered" id="stats_table">
+                                    <input type="hidden" class="form-control" id="savingsId" name="savingsId">
+                                    <% if(savingsValues.rows.length> 0) {%>
+                                    <% if(savingsValues.rows.length>7){
+                                                var x = savingsValues.rows.length -7;
+                                             }
+                                            else{
+                                                var x = 0;
+                                            }%>
+                                    <% for(var i=x; i < savingsValues.rows.length; i++) { %>
+                                    <tr>
+                                        <td><%= savingsValues.rows[i].goal_amount %></td>
+                                        <td><button id="expense<%= savingsValues.rows[i].goal_id%>" type="submit"
+                                                class="btn btn-primary btn-block login-btn"
+                                                onclick="deleteSavings('<%= savingsValues.rows[i].goal_id%>')">
+                                                DELETE</button></td>
+                                    </tr>
+                                    <%}%>
+                                        <%}%>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>

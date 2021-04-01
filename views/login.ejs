@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../SignUpModal/login.css">
+	      <script type="text/javascript" src="../SignUpModal/login.js"></script>
+    </head>
+    <body style="background-color: lightgray">
+        <%- include('./messages')-%>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                </li>
+            </ul>
+        </nav>
+        <nav class="container" style="background-color: #a0f8ca;">
+            <h1 style = "text-align:center">Welcome to ClearBudget</h1>
+          
+        </nav>
+        <form action="/auth/register" id="register" name="register" method="POST">
+            <div class="container">
+                <div id="myModal" class="modal fade">
+                    <div class="modal-dialog modal-login">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="title">Sign Up page</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="firstName" placeholder="First Name"
+                                           required="required">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="lastName" placeholder="Last Name"
+                                           required="required">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id='username' name="username" placeholder="Email"
+                                           required="required">
+                                </div>
+                                <div class="form-group">
+                                    <input id="psw" type="password" class="form-control" name="password" placeholder="Password"
+                                           required="required">
+                                </div>
+                                <div class="form-group">
+                                    <input id="cpsw" type="password" class="form-control" name="confirmpassword"
+                                           placeholder="Confirm Password" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <button id="my_submit_button" type="submit" class="btn btn-primary btn-block login-btn" >
+                                        <a href="#" onclick="checkuser(document.getElementById('username').value)" style="color: white">Register</a>
+                                        <!---Register--->
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div id="message" style="display:block">
+                                    <h3>Password must contain the following:</h3>
+                                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                    <p id="number" class="invalid">A <b>number</b></p>
+                                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                    <p id="match" class="invalid">Password and Confirm Password Match</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+                <h1>Login</h1>
+                <form action="/auth/login" method="POST">
+
+                    <div class="form-group">
+                        <label for="Email">Enter your Email:</label>
+                        <input type="email" class="form-control" name="email" id="Email" aria-describedby="EmailHelp" placeholder="Enter Associated Email ">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <h3>Don't have an account? Sign up Now!</h3>
+                <a href="#myModal" class="btn btn-primary" data-toggle="modal" onclick="openModal()">Sign Up</a>
+            </div>
+
+    </body>
+</html>

@@ -1,0 +1,10 @@
+insert into income_types (income_type_name, income_type_group) values ('Salary','Salary');
+insert into income_types (income_type_name, income_type_group) values ('Part-Time','Salary');
+insert into income_types (income_type_name, income_type_group) values ('Gift','Gift');
+insert into expense_types (expense_type_name, expense_type_group) values ('Rent','Rent');
+insert into expense_types (expense_type_name, expense_type_group) values ('Internet','Utilities');
+insert into expense_types (expense_type_name, expense_type_group) values ('Water','Utilities');
+insert into expense_types (expense_type_name, expense_type_group) values ('Gas','Utilities');
+insert into expense_types (expense_type_name, expense_type_group) values ('Car Insurance','Insurance');
+insert into expense_types (expense_type_name, expense_type_group) values ('Groceries','Food');
+insert into expense_types (expense_type_name, expense_type_group) values ('Restaraunt','Entertainment');

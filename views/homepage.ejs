@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://d3js.org/d3.v6.js"></script>
+        <script src="../Resources/homePage.js"></script>
+    </head>
+    
+  <body style="background-color: lightgray">
+    <%var save= JSON.parse(savings)
+    var year=JSON.parse(yearly)%>
+    <%- include('./messages')-%>
+    <%- include('./navigation')-%>
+    <nav class="container" style="background-color: #a0f8ca;">
+        <h1 style = "text-align:center">Welcome to ClearBudget</h1>
+        
+    </nav>
+    <div class="container">
+        <h2>Savings Goal:$<%=save[0].Value%></h2>
+        <br></br>
+        <h3>Projected Yearly Savings:$<%=year[1].Value%> </h3>
+        <br></br>
+        <h4>Projected To Complete Goal?:  <%if(year[1].Value>=save[0].Value){%>
+                Yes you will achieve your goal!
+            <%}else{%>
+                No you will not achieve your goal <%}%></h4>
+                <br></br>
+        <h5>Statistics</h5>
+    </div>
+    <div id="graph1"><button id='showGraph' type="submit" class="btn btn-primary btn-block login-btn" onclick="graph('<%= yearly%>','<%=savings%>')">Calculate Graph</button></div>
+    <div id="graph2"></div>
+</body>
